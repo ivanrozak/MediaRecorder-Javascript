@@ -68,10 +68,11 @@ export default function MediaRecorderExample() {
 
     mediaRecorder.ondataavailable = (e) => {
       console.log('ada datanya', e)
-      // const filename = "video-" + Date.now() + ".webm"
-      const filename = fileType === "video/webm;codecs=vp9" ? "video-" + Date.now() + ".webm" : "video-" + Date.now() + ".mp4"
+      const filename = "video-" + Date.now() + ".webm"
+      // const filename = fileType === "video/webm;codecs=vp9" ? "video-" + Date.now() + ".webm" : "video-" + Date.now() + ".mp4"
       const file = new File([e.data], filename, {
-        mimeType: fileType
+        // mimeType: fileType
+        mimeType: "video/webm;codecs=vp9"
       })
 
       setRecordedBlobs((prevState) => [...prevState, file])
