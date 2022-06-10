@@ -6,9 +6,13 @@ export default function MediaRecorder() {
   const [recordedBlobs, setRecordedBlobs] = useState([])
 
   const videoRef = useRef(null)
+  const videoRef2 = useRef(null)
+  const videoRef3 = useRef(null)
 
   useEffect(() => {
     getUserMedia()
+    getUserMedia2()
+    getUserMedia3()
   }, [])
 
   useEffect(() => {
@@ -22,6 +26,36 @@ export default function MediaRecorder() {
     })
     .then(stream => {
       const video = videoRef.current
+      video.srcObject = stream
+      localStream = stream
+      video.play()
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+  function getUserMedia2() {
+    navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true
+    })
+    .then(stream => {
+      const video = videoRef2.current
+      video.srcObject = stream
+      localStream = stream
+      video.play()
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+  function getUserMedia3() {
+    navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true
+    })
+    .then(stream => {
+      const video = videoRef3.current
       video.srcObject = stream
       localStream = stream
       video.play()
@@ -107,16 +141,18 @@ export default function MediaRecorder() {
           <p>Local Video</p>
           {/* <video id="videoLocal" muted="muted" width="300" height="200" /> */}
           <video ref={videoRef} muted="muted" width="300" height="200" />
+          <video ref={videoRef2} muted="muted" width="300" height="200" />
+          <video ref={videoRef3} muted="muted" width="300" height="200" />
           <div>
             <button onClick={() => drawToCanvas()}>Record</button>
             <button onClick={() => stopRecording()}>Stop Record</button>
             <button onClick={() => playVideo()}>Play Video</button>
           </div>
         </div>
-        <div className="remote-container">
+        {/* <div className="remote-container">
           <p>Recorder Video</p>
           <video id="videoRecorder" width="600" height="800" playsInline />
-        </div>
+        </div> */}
       </div>
     </div>
     </>
