@@ -4,19 +4,20 @@ let canvasStream, localStream, mediaRecorder, DRAWER
 
 export default function MediaRecorder() {
   const [recordedBlobs, setRecordedBlobs] = useState([])
+  const [displaySpeed, setDisplaySpeed] = useState("")
 
   const videoRef = useRef(null)
 
-  let connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  if (connection) {
-    console.log(connection)
-    if (connection.effectiveType === 'slow-2g') {
-      alert('You are on a slow network. Please try again later.')
-    }
-  }
-
   useEffect(() => {
     getUserMedia()
+    let connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (connection) {
+      console.log(connection)
+      setDisplaySpeed(connection.effectiveType)
+      // if (connection.effectiveType === 'slow-2g') {
+      //   alert('You are on a slow network. Please try again later.')
+      // }
+    }
   }, [])
 
   useEffect(() => {
@@ -126,6 +127,7 @@ export default function MediaRecorder() {
           <video id="videoRecorder" width="600" height="800" playsInline />
         </div> */}
       </div>
+      <div>{displaySpeed}</div>
     </div>
     </>
   )
