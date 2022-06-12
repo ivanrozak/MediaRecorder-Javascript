@@ -22,6 +22,7 @@ export default function RTCdetect() {
     <>
       <div>DetectRTC</div>
       <div>{ JSON.stringify(rtcDetail) }</div>
+      {/* <div>{ rtcDetail }</div> */}
     </>
   )
 }

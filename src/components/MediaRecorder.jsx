@@ -6,13 +6,17 @@ export default function MediaRecorder() {
   const [recordedBlobs, setRecordedBlobs] = useState([])
 
   const videoRef = useRef(null)
-  const videoRef2 = useRef(null)
-  const videoRef3 = useRef(null)
+
+  let connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (connection) {
+    console.log(connection)
+    if (connection.effectiveType === 'slow-2g') {
+      alert('You are on a slow network. Please try again later.')
+    }
+  }
 
   useEffect(() => {
     getUserMedia()
-    getUserMedia2()
-    getUserMedia3()
   }, [])
 
   useEffect(() => {
@@ -26,36 +30,6 @@ export default function MediaRecorder() {
     })
     .then(stream => {
       const video = videoRef.current
-      video.srcObject = stream
-      localStream = stream
-      video.play()
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
-  function getUserMedia2() {
-    navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true
-    })
-    .then(stream => {
-      const video = videoRef2.current
-      video.srcObject = stream
-      localStream = stream
-      video.play()
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
-  function getUserMedia3() {
-    navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true
-    })
-    .then(stream => {
-      const video = videoRef3.current
       video.srcObject = stream
       localStream = stream
       video.play()
@@ -141,8 +115,6 @@ export default function MediaRecorder() {
           <p>Local Video</p>
           {/* <video id="videoLocal" muted="muted" width="300" height="200" /> */}
           <video ref={videoRef} muted="muted" width="300" height="200" />
-          <video ref={videoRef2} muted="muted" width="300" height="200" />
-          <video ref={videoRef3} muted="muted" width="300" height="200" />
           <div>
             <button onClick={() => drawToCanvas()}>Record</button>
             <button onClick={() => stopRecording()}>Stop Record</button>
