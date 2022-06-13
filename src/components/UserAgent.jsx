@@ -2,8 +2,11 @@ import React, {useState, useEffect} from 'react'
 
 export default function UserAgent() {
   const [userAgent, setUserAgent] = useState('')
+  const [connectionSupport, setConnectionSupport] = useState('')
 
   const ua = navigator.userAgent
+
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
 
   useEffect(() => {
     // setUserAgent(navigator.userAgent)
@@ -12,6 +15,18 @@ export default function UserAgent() {
     } else {
       setUserAgent('is not Safari or Ipad')
     }
+
+    if (connection) {
+      console.log(connection.downlink)
+      // if (connection.effectiveType === 'slow-2g') {
+      //   preloadVideo = false;
+      // }
+      setConnectionSupport(connection.effectiveType + ' ' + connection.downlink)
+    } else {
+      console.log('connection doesn\'t support')
+      setConnectionSupport('connection doesn\'t support')
+    }
+
   }, [])
 
   useEffect(() => {
@@ -26,6 +41,7 @@ export default function UserAgent() {
     <>
       <div>UserAgent</div>
       <div>{ userAgent }</div>
+      <div>{ connectionSupport }</div>
     </>
   )
 }
