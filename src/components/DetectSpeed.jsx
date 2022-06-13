@@ -8,7 +8,8 @@ export default function DetectSpeed() {
     let time_start, end_time;
 
     // The size in bytes
-    let downloadSize = 5616998;
+    // let downloadSize = 5616998;
+    let downloadSize = 81 * 1024;
     let downloadImgSrc = new Image();
 
     downloadImgSrc.onload = function () {
@@ -22,7 +23,8 @@ export default function DetectSpeed() {
 
     function displaySpeed() {
       let timeDuration = (end_time - time_start) / 1000;
-      let loadedBits = downloadSize * 8;
+      // let loadedBits = downloadSize * 8;
+      let loadedBits = downloadSize;
       
       /* Converts a number into string
           using toFixed(2) rounding to 2 */
