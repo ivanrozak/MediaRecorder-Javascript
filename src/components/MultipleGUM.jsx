@@ -4,12 +4,13 @@ let localStream;
 
 export default function MultipleGUM() {
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-      // const video = document.getElementById('videoLocal')
-      // video.srcObject = stream
-      // video.play()
-      localStream = stream
-    })
+    // navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+    //   // const video = document.getElementById('videoLocal')
+    //   // video.srcObject = stream
+    //   // video.play()
+    //   localStream = stream
+    // })
+    initSupportType()
   }, [])
 
   const setGUM1 = () => {
@@ -22,6 +23,20 @@ export default function MultipleGUM() {
     video2.srcObject = localStream
     video2.play()
   }
+
+  const initSupportType = () => {
+    var types = ["video/webm",
+    "audio/webm",
+    "video/webm\;codecs=vp8",
+    "video/webm\;codecs=daala",
+    "video/webm\;codecs=h264",
+    "audio/webm\;codecs=opus",
+    "video/mpeg"];
+    for (var i in types) {
+      console.log( "Is " + types[i] + " supported? " + (MediaRecorder.isTypeSupported(types[i]) ? "Maybe!" : "Nope :("));
+    }
+  }
+
 
   return (
     <>

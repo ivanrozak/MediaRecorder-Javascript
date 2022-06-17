@@ -5,6 +5,7 @@ let canvasStream, localStream, mediaRecorder, DRAWER
 export default function MediaRecorder() {
   const [recordedBlobs, setRecordedBlobs] = useState([])
   const [displaySpeed, setDisplaySpeed] = useState("")
+  const [supportType, setSupportType] = useState("")
 
   const videoRef = useRef(null)
 
@@ -40,12 +41,7 @@ export default function MediaRecorder() {
     })
   }
 
-  function getSupportedMimetypes() {
-    const possibleTypes = ["video/webm;codecs=vp9", "video/mp4"]
-    return possibleTypes.filter((mimeType) => {
-      return MediaRecorder.isTypeSupported(mimeType)
-    })
-  }
+  
 
   function drawToCanvas() {
     let canvas, ctx
@@ -70,10 +66,18 @@ export default function MediaRecorder() {
     }, 1000 / 33)
 
     const fileType = getSupportedMimetypes()[0]
+    setSupportType(fileType)
 
     mediaRecorder = new MediaRecorder(canvasStream, {
       mimeType: fileType
     })
+
+    function getSupportedMimetypes() {
+      const possibleTypes = ["video/webm;codecs=vp9", "video/mp4"]
+      return possibleTypes.filter((mimeType) => {
+        return MediaRecorder.isTypeSupported(mimeType)
+      })
+    }
 
     mediaRecorder.ondataavailable = (e) => {
       console.log('ada datanya', e)
@@ -103,7 +107,7 @@ export default function MediaRecorder() {
     const videoRecorder = document.getElementById("videoRecorder")
     videoRecorder.src = null
     videoRecorder.srcObject = null
-    const superBuffer = new Blob(recordedBlobs, { type: getSupportedMimetypes()[0] })
+    const superBuffer = new Blob(recordedBlobs, { type: '.mp4' })
     videoRecorder.src = window.URL.createObjectURL(superBuffer)
     videoRecorder.controls = true
     videoRecorder.play()
@@ -128,6 +132,7 @@ export default function MediaRecorder() {
           <p>Recorder Video</p>
           <video id="videoRecorder" width="600" height="800" playsInline />
         </div> */}
+        <div>Support Type: { supportType }</div>
       </div>
       <div>{displaySpeed}</div>
     </div>
