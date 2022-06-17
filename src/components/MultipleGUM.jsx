@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 let localStream;
 
 export default function MultipleGUM() {
+  const [supportedType, setSupportedType] = useState('')
   useEffect(() => {
     // navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
     //   // const video = document.getElementById('videoLocal')
@@ -10,7 +11,9 @@ export default function MultipleGUM() {
     //   // video.play()
     //   localStream = stream
     // })
-    initSupportType()
+    // initSupportType()
+    console.log(getSupportedMimetypes()[0])
+    setSupportedType(getSupportedMimetypes()[0])
   }, [])
 
   const setGUM1 = () => {
@@ -35,16 +38,26 @@ export default function MultipleGUM() {
     for (var i in types) {
       console.log( "Is " + types[i] + " supported? " + (MediaRecorder.isTypeSupported(types[i]) ? "Maybe!" : "Nope :("));
     }
+    types.filter((mimeType) => {
+      console.log(MediaRecorder.isTypeSupported(mimeType))
+    })
   }
 
+  function getSupportedMimetypes () {
+    const possibleTypes = ['video/webm;codecs=vp9', 'video/mp4']
+    return possibleTypes.filter((mimeType) => {
+      return MediaRecorder.isTypeSupported(mimeType)
+    })
+  }
 
   return (
     <>
       <div>MultipleGUM</div>
-      <video id='videoLocal' autoPlay muted />
+      {/* <video id='videoLocal' autoPlay muted />
       <button onClick={setGUM1}>Set Video Local1</button>
       <video id='videoLocal2' autoPlay muted />
-      <button onClick={setGUM2}>Set Video Local 2</button>
+      <button onClick={setGUM2}>Set Video Local 2</button> */}
+      <div>{supportedType}</div>
     </>
   )
 }
